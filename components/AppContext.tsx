@@ -1,15 +1,14 @@
 'use client'
 
-import { createContext, ReactNode, useContext, useMemo, useState } from "react"
+import { Action, initialState, reducer, State } from "@/reducers/AppReducer"
+import { createContext, Dispatch, ReactNode, useContext, useMemo, useReducer } from "react"
 
-type state = {
-    displayNavigation: boolean
-    themeMode: 'dark' | 'light'
-}
+
 
 type AppContextType = {
-    state: state
-    setState: React.Dispatch<React.SetStateAction<state>>
+    state: State
+    // setState: React.Dispatch<React.SetStateAction<state>>
+    dispatch: Dispatch<Action>
 }
 
 const AppContext = createContext<AppContextType>(null!)
@@ -26,14 +25,11 @@ export default function AppContextProvider({
     children: ReactNode
 }) {
     // useState 用来定义 state，setState 用来更新 state
-    const [state, setState] = useState<state>({ 
-        displayNavigation: true, 
-        themeMode: 'light'
-    })
+    const [state, dispatch] = useReducer(reducer,initialState)
     // useMemo 用来缓存函数，避免每次渲染都重新创建函数,渲染
     const contextValue = useMemo(() => {
-        return { state, setState }
-    }, [state, setState])
+        return { state, dispatch }
+    }, [state, dispatch])
 
     return (
         // Provider 是一个 React 组件，它接受一个 value 属性，这个属性是一个对象，包含了 state 和 setState 两个属性。这个组件会把这个对象传递给它的子组件。

@@ -1,12 +1,13 @@
 import { useAppContext } from "@/components/AppContext";
 import Button from "@/components/common/Button";
+import { ActionType } from "@/reducers/AppReducer";
 import { HiPlus } from "react-icons/hi";
 import { LuPanelLeft } from "react-icons/lu";
 
 // 导出函数组件Menubar
 export default function Menubar() {
     // 使用useAppContext获取setState函数
-    const { setState } = useAppContext()
+    const { dispatch } = useAppContext()
     return (
         <div className="flex space-x-3">
             {/* 按钮，icon为HiPlus，variant为outline，className为flex-1 */}
@@ -23,17 +24,12 @@ export default function Menubar() {
                 variant="outline"
                 onClick={() =>
                     // setState 支持接收一个回调函数，回调函数的参数是当前状态（contextValue）。这个回调函数的返回值就是新的状态。
-                    setState(
-                        // { displayNavigation: false }
-                        //  React 中的状态是不可变的，意思是你不能直接修改状态对象
-                        (contextValue) => {
-                            return { 
-                                //  React 中的状态是不可变的，意思是你不能直接修改状态对象
-                                ...contextValue, 
-                                displayNavigation: false
-                            }
-                        }
-                    )}
+                    dispatch({
+                        type: ActionType.UPDATE,
+                        filed: 'displayNavigation',
+                        value: false
+                    })
+                }
             />
         </div>
     )
