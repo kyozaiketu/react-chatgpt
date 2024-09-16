@@ -2,6 +2,7 @@
 export type State = {
     displayNavigation: boolean
     themeMode: 'dark' | 'light'
+    currentModel:string
 }
 
 // 更新属性的操作类型
@@ -20,7 +21,8 @@ export type Action = UpdateAction;
 // 初始化状态
 export const initialState:State = {
     displayNavigation:true,
-    themeMode:'light'
+    themeMode:'light',
+    currentModel:'gpt-3.5-turbo'
 }
 
 // 创建一个reducer函数，接收当前状态和操作，返回新的状态
