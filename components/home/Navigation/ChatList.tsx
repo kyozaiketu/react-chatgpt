@@ -2,9 +2,11 @@
 import { groupByDate } from "@/common/util"
 import { Chat } from "@/types/chat"
 import { useMemo, useState } from "react"
-// import { AiOutlineEdit } from "react-icons/ai"
-// import { MdDeleteOutline, MdCheck, MdClose } from "react-icons/md"
-import { PiChatBold } from "react-icons/pi"
+import ChatItem from "./ChatItem"
+import { ImInsertTemplate } from "react-icons/im"
+
+
+
 // import { BsThreeDots } from "react-icons/bs"
 // import { BiMessageDetail } from "react-icons/bi"
 
@@ -107,23 +109,14 @@ export default function ChatList() {
                                 {list.map((item) => {
                                     const selected = selectedChat?.id === item.id
                                     return (
-                                        <li
-                                            onClick={() => {
-                                                setSelectedChat(item)
+                                        <ChatItem 
+                                            key={item.id} 
+                                            item={item} 
+                                            selected={selected} 
+                                            onSelected={(chat) => { //子组件回调过来的对话,设置为当前选中的对话
+                                                setSelectedChat(chat)
                                             }}
-                                            key={item.id}
-                                            className={`group flex items-center p-2 space-x-3 cursor-pointer rounded-md haver:bg-gray-800 ${selected ? 'bg-gray-800' : ''
-                                                }`}
-                                        >
-                                            <div>
-                                                <PiChatBold />
-                                            </div>
-                                            <div className="relative flex-1 whitespace-nowrap overflow-hidden">
-                                                {item.title}
-                                                <span className={`group-hover:from-gray-800 absolute right-0 inset-y-0 w-8 from-gray-900 bg-gradient-to-l ${selected ? 'from-gray-800' : 'from-gray-900'
-                                                    }`} ></span>
-                                            </div>
-                                        </li>
+                                        />
                                     )
                                 })}
                             </ul>
