@@ -8,10 +8,33 @@ import TextareaAutoSize from "react-textarea-autosize";
 
 export default function ChatInput() {
     const [messageText, setMessageText] = useState<string>("");
-    function send () {
-    
+    async function send () {
+        const body =JSON.stringify({messageText})
+        const response = await fetch('/api/chat',{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body
+        })
+        if(!response.ok){
+            throw new Error(response.statusText)
+        }
+        if(!response.body){
+            console.log("body error")
+            return
+        }
+        const reader = response.body.getReader()
+        const decoder = new TextDecoder()
+        let done = false
+        while(!done){
+            const {value, done: doneReading} = await reader.read()
+            done = doneReading
+            const chunkValue = decoder.decode(value)
+            console.log(chunkValue)
+        }
+
     setMessageText("");
-    
     }
     
     return (

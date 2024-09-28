@@ -1,3 +1,4 @@
+import { sleep } from "@/common/util";
 import { NextRequest } from "next/server";
 
 // 导出异步函数POST，接收NextRequest类型的参数
@@ -14,6 +15,7 @@ export async function POST(request: NextRequest) {
             // 遍历messageText
             for(let i=0; i<messageText.length; i++){
                 // 将messageText[i]编码后放入流中
+                await sleep(100)
                 contrroller.enqueue(encoder.encode(messageText[i]))
             }
             // 关闭流
